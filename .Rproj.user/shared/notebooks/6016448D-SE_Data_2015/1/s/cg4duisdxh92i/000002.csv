@@ -1,0 +1,6 @@
+"0","sel_data <- data_all_years %>% "
+"0","   filter(TAZ %in% check_taz) %>%"
+"0","   select(TAZ, pop_2010, pop_2015, pop_2040, "
+"0","               emp_total_2010, emp_total_2015, emp_total_2040, "
+"0","               hh_2010,	hh_2015,	hh_2040)"
+"0","kable(sel_data, caption = ""Selected TAZ from SERPM Data"", digits = 0, format.args = list(big.mark = "",""))"

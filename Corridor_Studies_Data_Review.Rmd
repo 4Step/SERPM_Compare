@@ -1,0 +1,57 @@
+---
+title: "Corridor Studies Data Review"
+author: "Amar Sarvepalli"
+date: "February 1, 2017"
+output: 
+  html_document:
+    toc: yes
+    toc_float: true
+    keep_md: yes
+    theme: cerulean
+    highlight: tango
+    code_folding: hide
+    fig_caption: true
+---
+
+This report is generated from several Rmarkdown documents where each chapter is a separate markdown report.
+The folowing are the Rmd files used in analyzing the data.
+
+1. check_seData/SE_Data_2015.Rmd
+2. trnCompare/trnCompare.Rmd  (not in use)
+3. extract_SERPM_SEData/check_se_data_trend.Rmd
+4. highway_stats/highway_stats.Rmd
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+# Check and install, load required packages
+required_packages <- c("dplyr", "tidyr", "knitr",  "foreign", "ggplot2", 
+                       "leaflet", "plotly", "DT", "htmltools", "broom", 
+                       "rgdal", "ModelMetrics", "lazyeval")
+
+check_packages <- required_packages %in% rownames(installed.packages())
+missing_packages <- required_packages[check_packages == FALSE]
+
+if (length(missing_packages) > 0) {
+  install.packages(missing_packages)
+}
+sapply(required_packages, library, character.only = TRUE)
+
+```
+
+
+```{r child = 'check_seData/SE_Data_2015.Rmd'}
+
+```
+
+<!-- ```{r child = 'trnCompare/trnCompare.Rmd'} -->
+<!-- ``` -->
+
+
+```{r child = 'extract_SERPM_SEData/check_se_data_trend.Rmd'}
+```
+
+
+```{r child = 'highway_stats/ODME_Validation.Rmd'}
+```
+
+
+

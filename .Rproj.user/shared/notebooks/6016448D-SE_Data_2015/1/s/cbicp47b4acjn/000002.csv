@@ -1,0 +1,8 @@
+"0","# Read data from stops input"
+"0","shape <- readOGR(paste0(path,""/"",stops.dir,""/"",stops_mpo_shapeFile), layer = ""simplified_MPOTAZPopEmp"", verbose = FALSE)"
+"0","stops_se <- shape@data"
+"0","stops_sel_data <- stops_se %>%"
+"0","  filter(TAZ_REG %in% check_taz) %>%"
+"0","  select(TAZ_REG, POP_10,	POP_15, POP_40,	"
+"0","                  TOTE_10, TOTE_15, TOTE_40)"
+"0","kable(stops_sel_data, caption = ""Selected TAZ from STOPS Data"", digits = 0, format.args = list(big.mark = "",""))"

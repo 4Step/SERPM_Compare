@@ -1,0 +1,137 @@
+---
+title: "check zero auto"
+author: "Amar Sarvepalli"
+date: "January 23, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(dplyr)
+library(tidyr)
+
+  # user settings
+  path <- "C:\\projects\\extract_SERPM_SEData" 
+  dir_2010 <- "orig_2010R"
+  dir_2015 <- "corr_2015R"
+  dir_2040 <- "corr_2040B"
+  
+  # output
+  outfile <- "2015_model_data.csv"  
+    
+  # Model Data
+  hhInput_File  <- "in\\ctramp\\hhFile.csv"
+  empInput_File <- "in\\ctramp\\maz_data.csv"
+	hhData_File   <- "out\\ctramp\\householdData_1.csv"
+	perData_File  <- "out\\ctramp\\personData_1.csv"
+	
+  ageBins <- c(-1, 17, 24, 34, 49, 64, 79, 120) 
+	incBins <- c(-30000, 0, 25000, 50000, 75000, 100000, 1500001)
+	maxZones <- 4405
+	
+	setwd(path)
+```
+
+
+# 2010 data
+```{r 2010 data, echo=FALSE}
+
+dir <- dir_2010
+
+  # Model Data
+  hhInput  <- paste0(dir,"\\",hhInput_File)
+  empInput <- paste0(dir,"\\",empInput_File)
+	hhFile   <- paste0(dir,"\\",hhData_File)
+	perFile  <- paste0(dir,"\\",perData_File)
+
+  # read data
+	hhinput <- read.csv(hhInput)
+	emp <- read.csv(empInput)
+	hh <- read.csv(hhFile)
+	per <- read.csv(perFile)
+	
+	# Keep data from hhinput
+	hhinput <- hhinput %>% select(HHID, TAZ)
+	
+  # Get zero autos by taz
+	za_2010 <- hh %>% 
+       left_join(hhinput, by = c("hh_id" = "HHID")) %>%
+       filter(autos == 0) %>%
+       group_by(TAZ) %>% 
+	     summarise(za_2010 = n())
+	
+```
+
+
+# 2015 data
+```{r 2015 data, echo=FALSE}
+
+dir <- dir_2015
+  # Model Data
+  hhInput  <- paste0(dir,"\\",hhInput_File)
+  empInput <- paste0(dir,"\\",empInput_File)
+	hhFile   <- paste0(dir,"\\",hhData_File)
+	perFile  <- paste0(dir,"\\",perData_File)
+
+  # read data
+	hhinput <- read.csv(hhInput)
+	emp <- read.csv(empInput)
+	hh <- read.csv(hhFile)
+	per <- read.csv(perFile)
+	
+	# Keep data from hhinput
+	hhinput <- hhinput %>% select(HHID, TAZ)
+	
+  # Get zero autos by taz
+	za_2015 <- hh %>% 
+       left_join(hhinput, by = c("hh_id" = "HHID")) %>%
+       filter(autos == 0) %>%
+       group_by(TAZ) %>% 
+	     summarise(za_2015 = n())
+	
+```
+
+
+# 2040 data
+```{r 2040 data, echo=FALSE}
+
+dir <- dir_2040
+  # Model Data
+  hhInput  <- paste0(dir,"\\",hhInput_File)
+  empInput <- paste0(dir,"\\",empInput_File)
+	hhFile   <- paste0(dir,"\\",hhData_File)
+	perFile  <- paste0(dir,"\\",perData_File)
+
+  # read data
+	hhinput <- read.csv(hhInput)
+	emp <- read.csv(empInput)
+	hh <- read.csv(hhFile)
+	per <- read.csv(perFile)
+	
+	# Keep data from hhinput
+	hhinput <- hhinput %>% select(HHID, TAZ)
+	
+  # Get zero autos by taz
+	za_2040 <- hh %>% 
+       left_join(hhinput, by = c("hh_id" = "HHID")) %>%
+       filter(autos == 0) %>%
+       group_by(TAZ) %>% 
+	     summarise(za_2040 = n())
+	
+```
+
+
+```{r, echo = TRUE}
+df <- data.frame(TAZ = 1:maxZones)
+
+zero_auto <- df %>% 
+    left_join(za_2010, by = "TAZ") %>%
+    left_join(za_2015, by = "TAZ") %>%
+    left_join(za_2040, by = "TAZ") %>%
+    mutate_each(funs(replace(.,is.na(.),0))) 
+
+colSums(zero_auto)
+
+```
+

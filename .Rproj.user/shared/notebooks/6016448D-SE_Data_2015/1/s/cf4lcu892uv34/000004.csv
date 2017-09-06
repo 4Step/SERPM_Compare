@@ -1,0 +1,7 @@
+"0","  "
+"0","  plot_pop <- fdot_2040R_vs_Corradino %>% plot_ly() %>% "
+"0","              add_trace(x = ~pop.Corradino, y = ~pop.FDOT,"
+"0","                       color = ~pop.bin, text = ~paste(""difference: "", diff.pop),"
+"0","                       type = 'scatter', mode = 'markers') %>%"
+"0","              layout(title = ""2040 Corradino vs FDOT MAZ Data"", plot_bgcolor = ""#e6e6e6"", width = 1000)"
+"0","  plot_pop"

@@ -1,0 +1,14 @@
+"0","check_hh <- data_all_years %>%"
+"0","   mutate_each(funs(replace(.,is.na(.),0))) %>%"
+"0","   mutate(diff_1015 = hh_2015 - hh_2010,"
+"0","          diff_1540 = hh_2040 - hh_2015,"
+"0","          check = ifelse((diff_1015 > 0 && diff_1540 < 0) || (diff_1015 < 0 && diff_1540 > 0), 1, 0)) %>%"
+"0","   filter(check == 1 , abs(diff_1540) > 5, abs(diff_1015) > 5)"
+"2","`mutate_each()` is deprecated.
+Use `mutate_all()`, `mutate_at()` or `mutate_if()` instead.
+To map `funs` over all variables, use `mutate_all()`
+"
+"0","check_hh <- check_hh %>%"
+"0","    select(TAZ, hh_2010,	hh_2015,	hh_2040, diff_1015, diff_1540)"
+"0","# kable(check_hh, caption = ""Zones with Inconsistent Households Trends"", digits = 0, format.args = list(big.mark = "",""))"
+"0","datatable(check_hh, caption = ""Zones with Inconsistent Households Trends"")"
